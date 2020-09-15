@@ -14,37 +14,37 @@ Python modules:
 
 - requests==2.24.0
 
+** Imports
+
+#+BEGIN_SRC python :tangle src/get_repos_info.py
+import json
+#+END_SRC
+
 ** Get repos info
 
 Use [1] for getting =repos.json=.
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :tangle src/get_repos_info.py
 fn = "/data/cryptokasten/repo/repos.json"
-#+END_SRC
-
-** Imports
-
-#+BEGIN_SRC python
-import json
 #+END_SRC
 
 ** Read repos file
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :tangle src/get_repos_info.py
 def read_repos_file():
     return json.loads(open(fn, "rt").read())
 #+END_SRC
 
 ** Calculate sum
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :tangle src/get_repos_info.py
 def calculate_sum(repos, field):
     return sum(map(lambda x: x[field], repos))
 #+END_SRC
 
 ** Get statistics
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :tangle src/get_repos_info.py
 def get_statistics(repos):
     res = dict()
     res["stargazers"] = calculate_sum(repos, "stargazers_count")
@@ -57,11 +57,11 @@ def get_statistics(repos):
 
 ** Run
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :tangle src/get_repos_info.py
 repos = read_repos_file()
 #+END_SRC
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :tangle src/get_repos_info.py
 print(get_statistics(repos))
 #+END_SRC
 
