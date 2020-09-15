@@ -1,0 +1,70 @@
+#+TITLE: GitHub: Get repos statistics
+#+TAGS: cryptokasten, github, statistics, stargazers, forks, watchers, issues, github-api
+#+PROPERTY: header-args:sh :session *shell github-get-repos-statistics sh* :results silent raw
+#+PROPERTY: header-args:python :session *shell github-get-repos-statistics python* :results silent raw
+#+OPTIONS: ^:nil
+
+[[https://github.com/cryptokasten][file:https://img.shields.io/badge/dynamic/json.svg?url=https://api.github.com/users/cryptokasten&label=Cryptokasten&query=$.public_repos]]
+
+** System environment
+
+- Python 3.8.0
+
+Python modules:
+
+- requests==2.24.0
+
+** Get repos info
+
+Use [1] for getting =repos.json=.
+
+#+BEGIN_SRC python
+fn = "/data/cryptokasten/repo/repos.json"
+#+END_SRC
+
+** Imports
+
+#+BEGIN_SRC python
+import json
+#+END_SRC
+
+** Read repos file
+
+#+BEGIN_SRC python
+def read_repos_file():
+    return json.loads(open(fn, "rt").read())
+#+END_SRC
+
+** Calculate sum
+
+#+BEGIN_SRC python
+def calculate_sum(repos, field):
+    return sum(map(lambda x: x[field], repos))
+#+END_SRC
+
+** Get statistics
+
+#+BEGIN_SRC python
+def get_statistics(repos):
+    res = dict()
+    res["stargazers"] = calculate_sum(repos, "stargazers_count")
+    res["forks"] = calculate_sum(repos, "forks_count")
+    res["watchers"] = calculate_sum(repos, "watchers_count")
+    res["open_issues"] = calculate_sum(repos, "open_issues_count")
+    res["total_repos"] = len(repos)
+    return res
+#+END_SRC
+
+** Run
+
+#+BEGIN_SRC python
+repos = read_repos_file()
+#+END_SRC
+
+#+BEGIN_SRC python
+print(get_statistics(repos))
+#+END_SRC
+
+** References
+
+1. https://github.com/cryptokasten/github-get-all-repos-info
